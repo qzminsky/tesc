@@ -3,7 +3,7 @@
 #ifndef TESC_H
 #define TESC_H
 
-static_assert(__cplusplus >= 201100L, "C++11 or higher is required");
+static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
 
 #include <cstdint>
 #include <exception>
@@ -15,7 +15,7 @@ static_assert(__cplusplus >= 201100L, "C++11 or higher is required");
  * \brief Escape-based console text stylizer
  * \author Qzminsky
  * 
- * \version 0.1.0
+ * \version 0.1.1
  * \date 2020/03/08
 */
 namespace tesc
