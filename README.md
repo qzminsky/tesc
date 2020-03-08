@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
 ![cpp-version](https://img.shields.io/badge/C%2B%2B-≥11-blue)
 
-**TesC** (**T**ext **es**cape **C**olorizer) is a tiny C++11 library to decorate console output with ANSI codes-based ostream manipulators
+**TesC** (**T**ext **es**cape **C**olorizer) is a tiny C++11 library to decorate console output with [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code)-based ostream manipulators
 
 ## Installation
 1. Download and copy the `tesc.h` file into your project headers' directory;
