@@ -1,17 +1,17 @@
-![tesc](https://user-images.githubusercontent.com/54913619/76165088-44146580-6165-11ea-917a-72bef4fb090a.png)
+![tesc](https://user-images.githubusercontent.com/54913619/76170457-1f36e700-6193-11ea-9159-cef56f111b55.png)
 
 ![version](https://img.shields.io/badge/version-0.1-brightgreen)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
-![cpp-version](https://img.shields.io/badge/C%2B%2B-≥11-blue)
+![cpp-version](https://img.shields.io/badge/C%2B%2B-≥17-blue)
 
-**TesC** (**T**ext **es**cape **C**olorizer) is a tiny C++11 library to decorate console output with [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code)-based ostream manipulators
+**TesC** (**T**ext **es**cape **C**olorizer) is a tiny C++17 library to decorate console output with [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code)-based ostream manipulators
 
 ## Installation
 1. Download and copy the `tesc.h` file into your project headers' directory;
 2. `#include` it;
 3. Enjoy!
 
-> ⚠️ *Note that the library requires C++11 support*
+> ⚠️ *Note that the library requires C++17 support*
 
 ## Usage
 Output decoration is carried out using manipulators. The library provides three of them:
