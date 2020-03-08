@@ -78,3 +78,6 @@ std::cout << color{ face::black | bright(back::white) } << font{ style::bold } <
 //           ^^^^^
 //           Just put it like this
 ```
+
+## License
+See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
