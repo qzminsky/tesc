@@ -49,11 +49,12 @@ Brighter colors can be obtained using the `tesc::bright(...)` function (see exam
 ### Font stylization
 TesC may be used to set bold, italic or/and underlined text style. Use the `tesc::font` manipulator with the following `tesc::style` settings:
 
-| Name        | ANSI Code |
-|-------------|-----------|
-| `bold`      | 1         |
-| `italic`    | 3         |
-| `underline` | 4         |
+| Name        | ANSI Code  | Enum values |
+|-------------|------------|-------------|
+| `normal`    | 22; 23; 24 | 0           |
+| `bold`      | 1          | 1           |
+| `italic`    | 3          | 2           |
+| `underline` | 4          | 4           |
 
 As for `tesc::color`, these parameters are joinable as well. Note that if you haven't used some of settings, they will be automatically cancelled. For example:
 
