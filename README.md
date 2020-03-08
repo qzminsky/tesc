@@ -1,4 +1,4 @@
-![tesc](https://user-images.githubusercontent.com/54913619/76163710-8b94f480-6159-11ea-8e9d-207ae26ce8dc.png)
+![tesc](https://user-images.githubusercontent.com/54913619/76165088-44146580-6165-11ea-917a-72bef4fb090a.png)
 
 ![version](https://img.shields.io/badge/version-0.1-brightgreen)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
