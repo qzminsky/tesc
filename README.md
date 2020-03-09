@@ -1,6 +1,6 @@
 ![tesc](https://user-images.githubusercontent.com/54913619/76170457-1f36e700-6193-11ea-9159-cef56f111b55.png)
 
-![version](https://img.shields.io/badge/version-0.1-brightgreen)
+![version](https://img.shields.io/badge/version-1.0-brightgreen)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
 ![cpp-version](https://img.shields.io/badge/C%2B%2B-≥17-blue)
 
