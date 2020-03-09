@@ -1,5 +1,8 @@
 #pragma once
 
+// Copyright © 2020 Alex Qzminsky
+// License: MIT
+
 #ifndef TESC_H
 #define TESC_H
 
@@ -12,29 +15,18 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
 /**
  * \namespace tesc
  * 
- * \brief Escape-based console text stylizer
+ * \brief ANSI codes-based console text stylizer
  * \author Qzminsky
  * 
- * \version 0.1.1
- * \date 2020/03/08
+ * \version 1.0.0
+ * \date 2020/03/10
 */
 namespace tesc
 {
     // ANCHOR Exceptions classes
     using invalid_argument = std::invalid_argument;
 
-    /**
-     * \brief Manipulator. Resets current style to the default
-     * 
-     * \param os Stylized output stream
-     * 
-     * \return Reference to the output stream
-    */
-    auto reset (std::ostream& os) -> std::ostream&
-    {
-        return os << "\033[0m";
-    }
-
+    // SECTION Manipulators parameters
     /**
      * \enum face
      * 
@@ -68,7 +60,9 @@ namespace tesc
     {
         normal = 0, bold = 1, italic = 2, underline = 4,
     };
+    // !SECTION
 
+    // SECTION Parameters modifiers
     /**
      * \brief `face`-to-`back` joiner
      * 
@@ -144,7 +138,10 @@ namespace tesc
 
         return back{ 60 + (uint8_t)clr };
     }
+    // !SECTION
 
+    // SECTION Manipulators
+    // ANCHOR The `color` manipulator
     /**
      * \class color
      * 
@@ -161,6 +158,9 @@ namespace tesc
         uint16_t _color;
 
     public:
+
+        /// There is no default constructor for a colorizer
+        color () = delete;
 
         /**
          * \brief Converting constructor from a text color code
@@ -209,6 +209,7 @@ namespace tesc
         }
     };
 
+    // ANCHOR The `font` manipulator
     /**
      * \class font
      * 
@@ -216,7 +217,7 @@ namespace tesc
     */
     class font
     {
-        style _style = style::normal;
+        style _style;
 
     public:
 
@@ -272,6 +273,19 @@ namespace tesc
         }
     };
 
+    // ANCHOR The `reset` manipulator
+    /**
+     * \brief Manipulator. Resets current style to the default
+     * 
+     * \param os Stylized output stream
+     * 
+     * \return Reference to the output stream
+    */
+    auto reset (std::ostream& os) -> std::ostream&
+    {
+        return os << "\033[0m";
+    }
+    // !SECTION
 }
 
 #endif
