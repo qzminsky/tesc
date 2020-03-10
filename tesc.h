@@ -11,6 +11,7 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
 #include <cstdint>
 #include <exception>
 #include <iostream>
+#include <utility>
 
 /**
  * \namespace tesc
@@ -18,7 +19,7 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
  * \brief ANSI codes-based console text stylizer
  * \author Qzminsky
  * 
- * \version 1.0.0
+ * \version 1.1.0
  * \date 2020/03/10
 */
 namespace tesc
@@ -69,12 +70,13 @@ namespace tesc
      * \param clr_1 Text foreground color
      * \param clr_2 Text background color
      * 
-     * \return Joint color code
+     * \return Joint color pair
     */
     [[nodiscard]]
-    auto operator | (face clr_1, back clr_2) -> uint16_t
+    auto operator | (face clr_1, back clr_2) -> std::pair<face, back>
     {
-        return (uint16_t)clr_1 << 8 | (uint8_t)clr_2;
+        //return (uint16_t)clr_1 << 8 | (uint8_t)clr_2;
+        return std::make_pair(clr_1, clr_2);
     }
 
     /**
@@ -83,10 +85,10 @@ namespace tesc
      * \param clr_1 Text background color
      * \param clr_2 Text foreground color
      * 
-     * \return Joint color code
+     * \return Joint color pair
     */
     [[nodiscard]]
-    auto operator | (back clr_1, face clr_2) -> uint16_t
+    auto operator | (back clr_1, face clr_2) -> std::pair<face, back>
     {
         return clr_2 | clr_1;
     }
@@ -149,13 +151,8 @@ namespace tesc
     */
     class color
     {
-        /*   Color 1   Color 2
-         *  ╭——˄———╮   ╭——˄———╮
-         * [xxxxxxxx | xxxxxxxx]  -- representation data
-         *  15     8   7      0
-        */
-
-        uint16_t _color;
+        face _fg_color = face::none;    ///< Foreground color
+        back _bg_color = back::none;    ///< Background color
 
     public:
 
@@ -167,21 +164,42 @@ namespace tesc
          * 
          * \param clr ANSI color code
         */
-        color (uint16_t clr) : _color { clr } {}
+        color (std::pair<face, back> const& clr)
+            : _fg_color{ clr.first }
+            , _bg_color{ clr.second }
+        {}
 
         /**
          * \brief Converting constructor from a text foreground color
          * 
          * \param clr Text foreground color
         */
-        color (face clr) : _color{ (uint8_t)clr } {}
+        color (face clr) : _fg_color{ clr } {}
 
         /**
          * \brief Converting constructor from a text background color
          * 
          * \param clr Text background color
         */
-        color (back clr) : _color{ (uint8_t)clr } {}
+        color (back clr) : _bg_color{ clr } {}
+
+        /**
+         * \brief Getting current text foreground color
+        */
+        [[nodiscard]]
+        auto face () const -> face
+        {
+            return _fg_color;
+        }
+
+        /**
+         * \brief Getting current text background color
+        */
+        [[nodiscard]]
+        auto back () const -> back
+        {
+            return _bg_color;
+        }
 
         /**
          * \brief Applies the color settings to the output stream
@@ -193,7 +211,7 @@ namespace tesc
         */
         friend auto operator << (std::ostream& os, color const& decorator) -> std::ostream&
         {
-            int clr_1 = decorator._color >> 8, clr_2 = (uint8_t)decorator._color;
+            int clr_1 = (uint8_t)decorator.face(), clr_2 = (uint8_t)decorator.back();
 
             os << "\033[";
 
@@ -258,6 +276,15 @@ namespace tesc
             return os << "\033[" << modif[0] << ";" << modif[1] << ";" << modif[2] << "m";
         }
 
+        /**
+         * \brief Returns current font style
+        */
+        [[nodiscard]]
+        auto get_style () const -> style
+        {
+            return _style;
+        }
+
     private:
 
         /**
@@ -269,7 +296,7 @@ namespace tesc
         [[nodiscard]]
         auto _test (style st) const -> bool
         {
-            return (uint8_t)_style & (uint8_t)st;
+            return (uint8_t)get_style() & (uint8_t)st;
         }
     };
 
