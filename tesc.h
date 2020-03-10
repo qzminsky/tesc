@@ -19,8 +19,8 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
  * \brief ANSI codes-based console text stylizer
  * \author Qzminsky
  * 
- * \version 1.1.0
- * \date 2020/03/10
+ * \version 1.1.1
+ * \date 2020/03/11
 */
 namespace tesc
 {
@@ -151,8 +151,8 @@ namespace tesc
     */
     class color
     {
-        face _fg_color = face::none;    ///< Foreground color
-        back _bg_color = back::none;    ///< Background color
+        static face _fg_color;    ///< Foreground color
+        static back _bg_color;    ///< Background color
 
     public:
 
@@ -165,29 +165,36 @@ namespace tesc
          * \param clr ANSI color code
         */
         color (std::pair<face, back> const& clr)
-            : _fg_color{ clr.first }
-            , _bg_color{ clr.second }
-        {}
+        {
+            _fg_color = clr.first;
+            _bg_color = clr.second;
+        }
 
         /**
          * \brief Converting constructor from a text foreground color
          * 
          * \param clr Text foreground color
         */
-        color (face clr) : _fg_color{ clr } {}
+        color (face clr)
+        {
+            _fg_color = clr;
+        }
 
         /**
          * \brief Converting constructor from a text background color
          * 
          * \param clr Text background color
         */
-        color (back clr) : _bg_color{ clr } {}
+        color (back clr)
+        {
+            _bg_color = clr;
+        }
 
         /**
          * \brief Getting current text foreground color
         */
         [[nodiscard]]
-        auto face () const -> face
+        static auto face () -> face
         {
             return _fg_color;
         }
@@ -196,7 +203,7 @@ namespace tesc
          * \brief Getting current text background color
         */
         [[nodiscard]]
-        auto back () const -> back
+        static auto back () -> back
         {
             return _bg_color;
         }
@@ -235,7 +242,7 @@ namespace tesc
     */
     class font
     {
-        style _style;
+        static style _style;
 
     public:
 
@@ -247,7 +254,10 @@ namespace tesc
          * 
          * \param st Font style
         */
-        font (style st) : _style{ st } {}
+        font (style st)
+        {
+            _style = st;
+        }
 
         /**
          * \brief Applies the font style to the output stream
@@ -280,7 +290,7 @@ namespace tesc
          * \brief Returns current font style
         */
         [[nodiscard]]
-        auto get_style () const -> style
+        static auto get_style () -> style
         {
             return _style;
         }
@@ -313,6 +323,11 @@ namespace tesc
         return os << "\033[0m";
     }
     // !SECTION
+
+    // Static fields initialization
+    face color::_fg_color = face::none;
+    back color::_bg_color = back::none;
+    style font::_style = style::normal;
 }
 
 #endif
