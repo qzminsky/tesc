@@ -79,5 +79,12 @@ std::cout << color{ face::black | bright(back::white) } << font{ style::bold } <
 //           Just put it like this
 ```
 
+### Saving settings
+Since applying decoration stores as `static`, they can be saved for future. Use these static member functions to get their components:
+
+* Foreground text color — `tesc::color::face()`;
+* Background text color — `tesc::color::back()`;
+* Current font style — `tesc::font::get_style()`.
+
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
