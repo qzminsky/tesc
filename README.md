@@ -1,13 +1,13 @@
 ![tesc](https://user-images.githubusercontent.com/54913619/76170457-1f36e700-6193-11ea-9159-cef56f111b55.png)
 
-![version](https://img.shields.io/badge/version-1.1-brightgreen)
+![version](https://img.shields.io/badge/version-2.0-brightgreen)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
 ![cpp-version](https://img.shields.io/badge/C%2B%2B-≥17-blue)
 
 **TesC** (**T**ext **es**cape **C**olorizer) is a tiny C++17 library to decorate console output with [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code)-based ostream manipulators
 
 ## Installation
-1. [Download](https://github.com/qzminsky/tesc/archive/v1.1.0.zip) the library source;
+1. [Download](https://github.com/qzminsky/tesc/archive/v2.0.0.zip) the library source;
 2. `#include` the `tesc.h` file in your C++ project;
 3. Enjoy!
 
@@ -71,20 +71,31 @@ std::cout << font{ style::bold | style::underline } << "Important!"
 Use the `tesc::reset` manipulator (like `std::endl`) to revert all color and font style settings to its default values:
 
 ```C++
-using namespace tesc;
-
 std::cout << color{ face::black | bright(back::white) } << font{ style::bold } << "Stylized text"
           << reset << "Ordinary style";
 //           ^^^^^
 //           Just put it like this
 ```
 
-### Saving settings
 Since applying decoration stores as `static`, they can be saved for future. Use these static member functions to get their components:
 
-* Foreground text color — `tesc::color::face()`;
-* Background text color — `tesc::color::back()`;
+* Foreground text color — `tesc::color::get_face()`;
+* Background text color — `tesc::color::get_back()`;
 * Current font style — `tesc::font::get_style()`.
+
+You can restore font style settings after `reset`-ing by use the default constructing form
+
+```C++
+std::cout << font{ style::italic } << "Italic" << reset << "Normal" << font{} << "Italic";
+```
+
+or by explicit restoration, as: `font{ font::get_style() }`. In addition to modifying, it is possible to _check_ which font style properties are set — just use the `tesc::font::test_style()` function:
+
+```C++
+std::cout << std::boolalpha << font{ style::italic }
+          << font::test_style(style::italic)                 // prints `true`
+          << font::test_style(style::bold | style::italic);  // prints `false`
+```
 
 ## License
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
