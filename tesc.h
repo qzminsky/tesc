@@ -9,7 +9,6 @@
 static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
 
 #include <cstdint>
-#include <exception>
 #include <iostream>
 #include <utility>
 
@@ -19,14 +18,11 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
  * \brief ANSI codes-based console text stylizer
  * \author Qzminsky
  * 
- * \version 1.1.1
+ * \version 2.0.0
  * \date 2020/03/11
 */
 namespace tesc
 {
-    // ANCHOR Exceptions classes
-    using invalid_argument = std::invalid_argument;
-
     // SECTION Manipulators parameters
     /**
      * \enum face
@@ -75,7 +71,6 @@ namespace tesc
     [[nodiscard]]
     auto operator | (face clr_1, back clr_2) -> std::pair<face, back>
     {
-        //return (uint16_t)clr_1 << 8 | (uint8_t)clr_2;
         return std::make_pair(clr_1, clr_2);
     }
 
@@ -119,7 +114,7 @@ namespace tesc
     [[nodiscard]]
     auto bright (face clr) -> face
     {
-        if ((uint8_t)clr >= 90) throw invalid_argument{ "Foreground color is already brighten" };
+        if ((uint8_t)clr >= 90) return clr;
 
         return face{ 60 + (uint8_t)clr };
     }
@@ -136,7 +131,7 @@ namespace tesc
     [[nodiscard]]
     auto bright (back clr) -> back
     {
-        if ((uint8_t)clr >= 100) throw invalid_argument{ "Background color is already brighten" };
+        if ((uint8_t)clr >= 100) return clr;
 
         return back{ 60 + (uint8_t)clr };
     }
@@ -147,7 +142,7 @@ namespace tesc
     /**
      * \class color
      * 
-     * \brief The 3/4-bit console text manipulator-colorizer
+     * \brief The 4-bit console text manipulator-colorizer
     */
     class color
     {
@@ -194,7 +189,7 @@ namespace tesc
          * \brief Getting current text foreground color
         */
         [[nodiscard]]
-        static auto face () -> face
+        static auto get_face () -> face
         {
             return _fg_color;
         }
@@ -203,7 +198,7 @@ namespace tesc
          * \brief Getting current text background color
         */
         [[nodiscard]]
-        static auto back () -> back
+        static auto get_back () -> back
         {
             return _bg_color;
         }
@@ -218,7 +213,8 @@ namespace tesc
         */
         friend auto operator << (std::ostream& os, color const& decorator) -> std::ostream&
         {
-            int clr_1 = (uint8_t)decorator.face(), clr_2 = (uint8_t)decorator.back();
+            int clr_1 = (uint8_t)decorator.get_face(),
+                clr_2 = (uint8_t)decorator.get_back();
 
             os << "\033[";
 
@@ -246,7 +242,9 @@ namespace tesc
 
     public:
 
-        /// There is no default constructor for a font-style
+        /**
+         * \brief Default constructor
+        */
         font () = default;
 
         /**
@@ -270,9 +268,9 @@ namespace tesc
         friend auto operator << (std::ostream& os, font const& styler) -> std::ostream&
         {
             int modif[] = {
-                styler._test(style::bold) ? 1 : 22,
-                styler._test(style::italic) ? 3 : 23,
-                styler._test(style::underline) ? 4 : 24,
+                test_style(style::bold) ? 1 : 22,
+                test_style(style::italic) ? 3 : 23,
+                test_style(style::underline) ? 4 : 24,
             };
 
             // Sorting an array due to cancellers which must be the last
@@ -295,18 +293,22 @@ namespace tesc
             return _style;
         }
 
-    private:
-
         /**
          * \internal
-         * \brief Predicate. Checks if the style contains a given option
+         * \brief Predicate. Checks if the style contains a given option (or both are equal to 0)
          * 
          * \param st Style option
         */
         [[nodiscard]]
-        auto _test (style st) const -> bool
+        static auto test_style (style stl) -> bool
         {
-            return (uint8_t)get_style() & (uint8_t)st;
+            if (
+                auto st_1 = (uint8_t)get_style(), st_2 = (uint8_t)stl;
+                !st_1 && !st_2
+            ) {
+                return true;
+            }
+            else return st_1 & st_2;
         }
     };
 
