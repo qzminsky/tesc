@@ -18,8 +18,8 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
  * \brief ANSI codes-based console text stylizer
  * \author Qzminsky
  * 
- * \version 2.0.0
- * \date 2020/03/11
+ * \version 2.0.1
+ * \date 2020/03/14
 */
 namespace tesc
 {
@@ -308,7 +308,7 @@ namespace tesc
             ) {
                 return true;
             }
-            else return st_1 & st_2;
+            else return (st_1 & st_2) == st_2;
         }
     };
 
