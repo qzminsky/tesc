@@ -1,7 +1,7 @@
 #pragma once
 
-// Copyright © 2020 Alex Qzminsky
-// License: MIT
+// Copyright © 2020 Alex Qzminsky.
+// License: MIT. All rights reserved.
 
 #ifndef TESC_H
 #define TESC_H
@@ -19,7 +19,7 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
  * \author Qzminsky
  * 
  * \version 2.0.1
- * \date 2020/03/14
+ * \date 2020/03/17
 */
 namespace tesc
 {
@@ -108,8 +108,6 @@ namespace tesc
      * \param clr Input color
      * 
      * \return Brighter color
-     * 
-     * \throw invalid_argument
     */
     [[nodiscard]]
     auto bright (face clr) -> face
@@ -125,8 +123,6 @@ namespace tesc
      * \param clr Input color
      * 
      * \return Brighter color
-     * 
-     * \throw invalid_argument
     */
     [[nodiscard]]
     auto bright (back clr) -> back
