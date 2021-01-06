@@ -1,7 +1,13 @@
 #pragma once
 
-// Copyright © 2020 Alex Qzminsky.
+// Copyright © 2020-2021 Alex Qzminsky.
 // License: MIT. All rights reserved.
+
+/// \brief ANSI codes-based console text stylizer
+///
+/// \author https://github.com/qzminsky///
+/// \version 2.0.1
+/// \date 2020/03/17
 
 #ifndef TESC_H
 #define TESC_H
@@ -12,21 +18,12 @@ static_assert(__cplusplus >= 201700L, "C++17 or higher is required");
 #include <iostream>
 #include <utility>
 
-/**
- * \namespace tesc
- * 
- * \brief ANSI codes-based console text stylizer
- * \author Qzminsky
- * 
- * \version 2.0.1
- * \date 2020/03/17
-*/
 namespace tesc
 {
     // SECTION Manipulators parameters
     /**
      * \enum face
-     * 
+     *
      * \brief Text foreground color
     */
     enum class face : uint8_t
@@ -37,7 +34,7 @@ namespace tesc
 
     /**
      * \enum back
-     * 
+     *
      * \brief Text background color
     */
     enum class back : uint8_t
@@ -48,9 +45,9 @@ namespace tesc
 
     /**
      * \enum style
-     * 
+     *
      * \brief Font style
-     * 
+     *
      * \note Stores non-valid ANSI codes due to easy joining
     */
     enum class style : uint8_t
@@ -62,10 +59,10 @@ namespace tesc
     // SECTION Parameters modifiers
     /**
      * \brief `face`-to-`back` joiner
-     * 
+     *
      * \param clr_1 Text foreground color
      * \param clr_2 Text background color
-     * 
+     *
      * \return Joint color pair
     */
     [[nodiscard]]
@@ -76,10 +73,10 @@ namespace tesc
 
     /**
      * \brief `back`-to-`face` joiner
-     * 
+     *
      * \param clr_1 Text background color
      * \param clr_2 Text foreground color
-     * 
+     *
      * \return Joint color pair
     */
     [[nodiscard]]
@@ -90,10 +87,10 @@ namespace tesc
 
     /**
      * \brief `style`-to-`style` joiner
-     * 
+     *
      * \param f_1 First font style
      * \param f_2 Second font style
-     * 
+     *
      * \return Joint font style
     */
     [[nodiscard]]
@@ -104,9 +101,9 @@ namespace tesc
 
     /**
      * \brief Transforms the input foreground color into its brighter version
-     * 
+     *
      * \param clr Input color
-     * 
+     *
      * \return Brighter color
     */
     [[nodiscard]]
@@ -119,9 +116,9 @@ namespace tesc
 
     /**
      * \brief Transforms the input background color into its brighter version
-     * 
+     *
      * \param clr Input color
-     * 
+     *
      * \return Brighter color
     */
     [[nodiscard]]
@@ -137,7 +134,7 @@ namespace tesc
     // ANCHOR The `color` manipulator
     /**
      * \class color
-     * 
+     *
      * \brief The 4-bit console text manipulator-colorizer
     */
     class color
@@ -152,7 +149,7 @@ namespace tesc
 
         /**
          * \brief Converting constructor from a text color code
-         * 
+         *
          * \param clr ANSI color code
         */
         color (std::pair<face, back> const& clr)
@@ -163,7 +160,7 @@ namespace tesc
 
         /**
          * \brief Converting constructor from a text foreground color
-         * 
+         *
          * \param clr Text foreground color
         */
         color (face clr)
@@ -173,7 +170,7 @@ namespace tesc
 
         /**
          * \brief Converting constructor from a text background color
-         * 
+         *
          * \param clr Text background color
         */
         color (back clr)
@@ -201,10 +198,10 @@ namespace tesc
 
         /**
          * \brief Applies the color settings to the output stream
-         * 
+         *
          * \param os Output stream
          * \param decorator Color settings
-         * 
+         *
          * \return Reference to the output stream
         */
         friend auto operator << (std::ostream& os, color const& decorator) -> std::ostream&
@@ -229,7 +226,7 @@ namespace tesc
     // ANCHOR The `font` manipulator
     /**
      * \class font
-     * 
+     *
      * \brief Console font style manipulator
     */
     class font
@@ -245,7 +242,7 @@ namespace tesc
 
         /**
          * \brief Converting constructor from a style
-         * 
+         *
          * \param st Font style
         */
         font (style st)
@@ -255,10 +252,10 @@ namespace tesc
 
         /**
          * \brief Applies the font style to the output stream
-         * 
+         *
          * \param os Output stream
          * \param decorator Font style manipulator
-         * 
+         *
          * \return Reference to the output stream
         */
         friend auto operator << (std::ostream& os, font const& styler) -> std::ostream&
@@ -292,7 +289,7 @@ namespace tesc
         /**
          * \internal
          * \brief Predicate. Checks if the style contains a given option (or both are equal to 0)
-         * 
+         *
          * \param st Style option
         */
         [[nodiscard]]
@@ -311,9 +308,9 @@ namespace tesc
     // ANCHOR The `reset` manipulator
     /**
      * \brief Manipulator. Resets current style to the default
-     * 
+     *
      * \param os Stylized output stream
-     * 
+     *
      * \return Reference to the output stream
     */
     auto reset (std::ostream& os) -> std::ostream&
@@ -326,6 +323,29 @@ namespace tesc
     face color::_fg_color = face::none;
     back color::_bg_color = back::none;
     style font::_style = style::normal;
-}
 
-#endif
+}   // end namespace tesc
+
+#endif  // TESC_H
+
+// MIT License
+//
+// Copyright (c) 2020-2021 Alex Qzminsky
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
