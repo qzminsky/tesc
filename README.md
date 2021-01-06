@@ -8,7 +8,7 @@
 
 ## Installation
 1. [Download](https://github.com/qzminsky/tesc/archive/master.zip) the library source;
-2. `#include` the `tesc.h` file in your C++ project;
+2. `#include` the `tesc.hpp` file in your C++ project;
 3. Enjoy!
 
 > ⚠️ *Note that the library requires C++17 support*
